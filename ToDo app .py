@@ -4,7 +4,8 @@ import sqlite3
 conn=sqlite3.connect("todo.db")
 #conn.execute("create table tasks(seq_no int primary key,task char(50),priority char(20)); ")
 root=Tk()
-root.geometry("600x600")
+root.geometry("430x450")
+root.maxsize(height=430,width=430)
 #-----------------------------------------------------------------------------------------------
 #func to exit the parent window
 def exit():
@@ -14,12 +15,8 @@ def exit():
 #function to delete the selected record in database    
 def delete():
     for i in lb1.curselection():
-        print("i=",i)
-        print("lb1.get(i)=",lb1.get(i))
         data_list=lb1.get(i)
-        print("data_list=",data_list)
         task_id=data_list[1]
-        print("task_id=",task_id)
         conn.execute("delete from tasks where seq_no='{}';".format(task_id))
         conn.commit()
         print("committed data")
@@ -68,12 +65,12 @@ def add_task():
     add_task_window.mainloop()
 #-----------------------------------------------------------------------------------------
 #buttons on the parent window    
-bttn_new_task=Button(root,text="+",command=add_task)
-bttn_new_task.pack()
-bttn_del_task=Button(root,text="Delete",command=delete)
-bttn_del_task.pack()
-bttn_exit=Button(root,text="Exit window",command=exit)
-bttn_exit.pack()
+bttn_new_task=Button(root,text="New Task",command=add_task,width=19).grid(row=0,column=0,columnspan=2)
+#bttn_new_task.pack()
+bttn_del_task=Button(root,text="Delete",command=delete,width=19).grid(row=0,column=2,columnspan=2)
+#bttn_del_task.pack()
+bttn_exit=Button(root,text="Exit window",command=exit,width=19).grid(row=0,column=4,columnspan=2)
+#bttn_exit.pack()
 #-----------------------------------------------------------------------------------------
 #to display the NOTES 
 cursor=conn.execute("select * from tasks;")
@@ -83,7 +80,6 @@ for record in cursor:
     print(record)
     lb1.insert(count,"{}".format(record))
     count=count+1
-lb1.pack()  
+lb1.grid(row=1,column=0,columnspan=6) 
 
 root.mainloop()
-
