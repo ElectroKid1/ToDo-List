@@ -14,9 +14,15 @@ def exit():
 #function to delete the selected record in database    
 def delete():
     for i in lb1.curselection():
-        print(i)
-        print(lb1.get(i))
-
+        print("i=",i)
+        print("lb1.get(i)=",lb1.get(i))
+        data_list=lb1.get(i)
+        print("data_list=",data_list)
+        task_id=data_list[1]
+        print("task_id=",task_id)
+        conn.execute("delete from tasks where seq_no='{}';".format(task_id))
+        conn.commit()
+        print("committed data")
 #func to ADD NEW TASK in database 
 def add_task():
     add_task_window=Tk()
@@ -79,5 +85,5 @@ for record in cursor:
     count=count+1
 lb1.pack()  
 
-
 root.mainloop()
+
